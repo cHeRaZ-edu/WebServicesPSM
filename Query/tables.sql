@@ -1,0 +1,63 @@
+CREATE DATABASE IF NOT EXISTS db_psm;
+
+USE db_psm;
+
+CREATE TABLE IF NOT EXISTS user
+(
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(70) NULL,
+	last_name VARCHAR(70) NULL,
+	nickname VARCHAR(70) NULL,
+	email VARCHAR(70) NULL,
+	password VARCHAR(70) NULL,
+	phone VARCHAR(20) NULL,
+	imageURL VARCHAR(150) NULL,
+	imageBackgroundURL VARCHAR(150) NULL,
+	provider VARCHAR(70) NULL,
+	LatLngJSON VARCHAR(70) NULL,
+	invisible integer UNSIGNED NOT NULL DEFAULT 0,
+	mode integer UNSIGNED NOT NULL DEFAULT 0
+	-- pathPortImg VARCHAR(150) NULL,
+	-- pathFileGPS VARCHAR(150) NULL
+) CHARACTER SET ="latin1";
+
+
+CREATE TABLE IF NOT EXISTS grua
+(
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	name VARCHAR(70) NULL,
+	description VARCHAR(150) NULL,
+	imageURL VARCHAR(150) NULL,
+	idUser INT(11),
+	FOREIGN KEY (idUser) REFERENCES user(id)
+
+) CHARACTER SET ="latin1";
+
+CREATE TABLE IF NOT EXISTS calificacion
+(
+	idUser INT(11),
+	idGrua INT(11),
+	vote_5 integer UNSIGNED,
+	vote_4 integer UNSIGNED,
+	vote_3 integer UNSIGNED,
+	vote_2 integer UNSIGNED,
+	vote_1 integer UNSIGNED,
+	message VARCHAR(150) NULL,
+	imageURL VARCHAR(150) NULL,
+	FOREIGN KEY (idUser) REFERENCES user(id),
+	FOREIGN KEY (idGrua) REFERENCES grua(id),
+	PRIMARY KEY(idUser,idGrua)
+) CHARACTER SET ="latin1";
+
+CREATE TABLE IF NOT EXISTS message_chat
+(
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	idUserSend INT(11),
+	idUserRecive INT(11),
+	message VARCHAR(150) NULL,
+	imageURL VARCHAR(150) NULL,
+	time_send VARCHAR(70) NULL,
+	response integer UNSIGNED,
+	FOREIGN KEY (idUserSend) REFERENCES user(id),
+	FOREIGN KEY (idUserRecive) REFERENCES user(id)
+);
